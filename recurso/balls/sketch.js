@@ -2,7 +2,7 @@ function setup(){
   var startrad=[4*PI/8,3*PI/8,2*PI/8,PI/8,0,PI/8,2*PI/8,3*PI/8]
   var polarity=[-1,-1,-1,-1,1,1,1,1]
   createCanvas(windowWidth,windowHeight);
-  test = new Spin(0,0,0,windowWidth/2,windowHeight/2,75,windowHeight*1.5,ROOT);
+  test = new Spin(0,0,0,windowWidth/2,windowHeight/2,75,windowHeight*1.1,ROOT);
 
 }
 
@@ -28,7 +28,7 @@ function Spin(radian,rad,slide,x,y,speed,size,depth){
     for(var k=0; k<8; k++){
       this.dots.push(new Spin(k*(Math.PI/8),
                               startrad[(k)%8],
-                              polarity[(k)%8]*Math.PI/this.speed,
+                              ((this.depth%2==0)?1:-1)*polarity[(k)%8]*Math.PI/this.speed,
                               this.x,
                               this.y,
                               this.speed,
