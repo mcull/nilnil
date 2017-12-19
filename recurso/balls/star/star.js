@@ -1,6 +1,6 @@
 function setup(){
   createCanvas(1200,640);
-  var CONTROL=2.2;
+  var CONTROL=30;
   star1 = new StarPath(600,320,150,PI/(3*CONTROL),0,2*PI/3);
   star2 = new StarPath(600,320,150,PI/(3*CONTROL),2,PI/3);
   star3 = new StarPath(600,320,150,PI/(3*CONTROL),2,0);
@@ -17,7 +17,7 @@ var star5;
 
 
 function draw(){
-  if(keyIsPressed){
+  if(!keyIsPressed){
     background(255);
   }
 
