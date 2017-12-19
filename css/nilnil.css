@@ -1,0 +1,91 @@
+body {
+  background-color: #FFFFFF;
+}
+
+a {
+  color: #b4ff69;
+  text-decoration: none;
+}
+
+.source a {
+  color: #cccccc;
+  font-family: 'Montserrat', sans-serif;
+}
+
+@media (min-width: 975px) {
+  .nilnil {
+    position:fixed;
+    top:138px;
+    left: -223px;
+    transform: rotate(90deg);
+    font-size: 300px;
+    z-index: 0;
+  }
+
+  .sketch {
+    z-index: 1;
+    width: 400px;
+    height: 400px;
+    margin: 20px auto;
+    text-align: center;
+    border: #69b4ff 75px solid;
+    border-radius: 75%;
+  }
+}
+
+@media (max-width: 975px) {
+  .nilnil {
+    position:fixed;
+    top:100px;
+    left: -150px;
+    transform: rotate(90deg);
+    font-size: 200px;
+    z-index: 0;
+  }
+
+  .sketch {
+    z-index: 1;
+    width: 400px;
+    height: 400px;
+    margin: 20px auto;
+    text-align: center;
+    border: #69b4ff 24px solid;
+    border-radius: 75%;
+  }
+}
+
+.title {
+  font-family: 'Rock Salt', cursive;
+  font-size: 32px;
+  position: relative;
+  top:50px;
+}
+
+.thumbnail img {
+  height: 200px;
+  border-radius: 50%;
+}
+
+.author {
+  font-weight: bold;
+  position: relative;
+  top: 15px;
+  left:-125px;
+  transform: rotate(-7deg);
+  font-family: 'VT323', monospace;
+  font-size:24px;
+  color: #ff69b4;
+  text-shadow: 2px 2px #cc69b4;
+}
+
+.description {
+  width: 200px;
+  margin: 0px auto;
+  font-size: 12px;
+  text-align: right;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.melt {
+  font-family: 'Creepster';
+}
