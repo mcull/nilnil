@@ -7,11 +7,14 @@ var blossomBouncer = null;
 var dots = new Array();
 var curves = new Array();
 
-var c, w, alpha = null;
+var jump = true;
+
+var c, altC, fc, altFc, w, alpha = null;
 
 var SPACE = 20;
 var HEIGHT = .5;
 var MAX_CURVES = 300;
+var ODDS_OF_WHITE = .05;
 
 function setup() {
   createCanvas(windowWidth, windowHeight*HEIGHT);
@@ -20,7 +23,7 @@ function setup() {
   background(255);
   //noLoop();
   strokeWeight(1);
-  //frameRate(2);
+  strokeCap(SQUARE);
 }
 
 function draw() {
@@ -31,53 +34,90 @@ function draw() {
     var endY = random(windowHeight*HEIGHT);
     var c1X = random(windowWidth);
     var c1Y = random(windowHeight*HEIGHT);
+    //var c1Y = randomGaussian(windowHeight/4,35);
     var c2X = random(windowWidth);
-    var c2Y = random(windowHeight*HEIGHT);
-    append(curves,[startX, startY, c1X, c1Y, c2X, c2Y, endX, endY]);
-    if (frameCount%(MAX_CURVES/10) > 0) {
+    //var c2Y = random(windowHeight*HEIGHT);
+    var c2Y = randomGaussian(windowHeight/3,25);
+    var splineColor = color(0, 0, 0);
+    var featherColor = color(255, 102, 0);
+    var featherSize = 18;
+    var featherWeight = 1;
+    var fade = true;
+    var direction = 1;
+
+    if (random(100) < 100*ODDS_OF_WHITE) {
+      //splineColor = color(0,255,0);
+      //featherColor = color(0,255,0);
+      splineColor = color(255);
+      featherColor = color(255);
+      startX = random(windowWidth - windowWidth/5);
+      startY = random(windowHeight*HEIGHT/10);
+      endX = startX + random(windowWidth/5);
+      endY = random(windowHeight*HEIGHT/10) + (windowHeight*HEIGHT/10 * 8);
+      fade = false;
+      featherSize = 9;
+      featherWeight = 2;
+      direction = -1;
+    }
+
+    var newCurve = new Curve(startX,
+                             startY,
+                             c1X,
+                             c1Y,
+                             c2X,
+                             c2Y,
+                             endX,
+                             endY,
+                             splineColor,
+                             featherColor,
+                             featherSize,
+                             featherWeight,
+                             fade,
+                             direction);
+
+    append(curves,newCurve);
+    if (jump && frameCount%(MAX_CURVES/10) > 0) {
       return;
     }
+  } else {
+    jump = false;
+    curves = curves.slice(random(MAX_CURVES/10));
   }
 
   background(255);
   var alpha = 230;
-  reverse(curves).forEach(function(curve, counter) {
+  reverse(curves).forEach(function(curve) {
+    strokeWeight(1);
     alpha-=15;
     if (alpha < 10) {
       alpha = 10;
     }
-    stroke(0,alpha);
-    var w = curve[0]%20;
-    //random(30);
-    var c = 255;
-    bezier(...curve);
-    for (var j = 0; j < w; j++) {
-      bezier(curve[0],
-             curve[1],
-             curve[2]-j,
-             curve[3]+j,
-             curve[4]-j/2,
-             curve[5]+j/2,
-             curve[6],
-             curve[7]);
-    }
-    //bezier(85, 20, 10, 10, 90, 90, 15, 80);
-    stroke(255, 102, 0, alpha);
-    steps = floor((floor(curve[6]) - floor(curve[0])))/2;
-    //console.log(frameCount, curves);
-
-    for (i = 0; i <= steps; i++) {
-      if (floor(curve[0]*i)%5 == 0) {
+    var appliedAlpha = (curve.fade) ? alpha : 230;
+    stroke(red(curve.color),green(curve.color),blue(curve.color), appliedAlpha);
+    for (var j = 0; j < curve.width; j++) {
+      if (j == floor(curve.width/2)) {
         continue;
       }
-      t = i / steps;
-      x = bezierPoint(curve[0], curve[2], curve[4], curve[6], t);
-      y = bezierPoint(curve[1], curve[3], curve[5], curve[7], t);
-      tx = bezierTangent(curve[0], curve[2], curve[4], curve[6], t);
-      ty = bezierTangent(curve[1], curve[3], curve[5], curve[7], t);
+      bezier(...curve.spline(j));
+    }
+    //bezier(85, 20, 10, 10, 90, 90, 15, 80);
+    stroke(red(curve.featherColor),green(curve.featherColor),blue(curve.featherColor), appliedAlpha);
+    //steps = floor((floor(curve[6]) - floor(curve[0])))/2;
+    //console.log(frameCount, curves);
+
+    for (i = 0; i <= curve.steps(); i++) {
+      if (curve.skip(i)) {
+        continue;
+      }
+      strokeWeight(ceil(random(curve.featherWeight)));
+      t = i / curve.steps();
+      x = bezierPoint(curve.startX, curve.c1X, curve.c2X, curve.endX, t);
+      y = bezierPoint(curve.startY, curve.c1Y, curve.c2Y, curve.endY, t);
+      tx = bezierTangent(curve.startX, curve.c1X, curve.c2X, curve.endX, t);
+      ty = bezierTangent(curve.startY, curve.c1Y, curve.c2Y, curve.endY, t);
       a = atan2(ty, tx);
-      a -= HALF_PI;
-      line(x, y, cos(a)*18 + x, sin(a)*18 + y);
+      a -= HALF_PI*curve.direction;
+      line(x, y, cos(a)*curve.featherSize + x, sin(a)*curve.featherSize + y);
     }
   });
   reverse(curves);
@@ -96,26 +136,42 @@ function Bouncer(start, min, max, increment) {
   }
 }
 
+function Curve(startX, startY, c1X, c1Y, c2X, c2Y, endX, endY, color, featherColor, featherSize, featherWeight, fade, direction) {
+  this.color = color;
+  this.featherColor = featherColor;
+  this.startX = startX;
+  this.startY = startY;
+  this.c1X = c1X;
+  this.c1Y = c1Y;
+  this.c2X = c2X;
+  this.c2Y = c2Y;
+  this.endX = endX;
+  this.endY = endY;
+  this.width = startX%30;
+  this.fade = fade;
+  this.featherSize = featherSize;
+  this.featherWeight = featherWeight;
+  this.direction = direction;
+  this.spline = function(shift) {
+    return [this.startX,
+            this.startY,
+            this.c1X - shift,
+            this.c1Y + shift/2,
+            this.c2X - shift,
+            this.c2Y + shift/2,
+            this.endX,
+            this.endY];
+  };
+
+  this.steps = function() {
+    return floor(endX - startX)/2;
+  };
+
+  this.skip = function(step) {
+    return floor(startX*step)%5 == 0
+  };
+}
+
 function xRound(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-}
-
-function isValid(x,y, bound) {
-  //return (w < 3 && random(100) < 1) || sq(x - windowWidth/2)+sq(y - windowHeight/2) <= sq(bound/2);
-  return sq(x - windowWidth/2)+sq(y - windowHeight/2) <= sq(bound/2);
-
-}
-
-function validCoordinate() {
-  var currentRadius = blossomBouncer.next();
-  var coordinate = randomCoordinate();
-
-  while (!isValid(...coordinate, currentRadius)) {
-    coordinate = randomCoordinate();
-  }
-  return coordinate;
-}
-
-function randomCoordinate() {
-  return [random(windowWidth), random(windowHeight)]
 }
