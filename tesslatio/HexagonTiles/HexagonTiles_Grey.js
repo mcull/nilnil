@@ -1,22 +1,5 @@
 function setup(){
   createCanvas(1200,640)
-  background(255,0,0)
-  /*
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
-      var r = random(1)*255;
-      fill(r,r,r);
-      Hexagon(40+j*120,35+i*69,40);
-    }
-  }
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
-      var r = random(1)*255;
-      fill(r,r,r);
-      Hexagon(100+j*120,70+i*69,40);
-    }
-  }
-  */
   hexs1=[];
   hexs2=[];
   for(var i=0;i<18;i++){
@@ -80,10 +63,8 @@ function Pulsar(x,y,sidelength,color,stage=0){
     stroke(255-this.color);
     fill(255-this.color);
     Hexagon(this.x,this.y,this.sidelength-this.slide)
-    this.slide++;
-    this.slide++;
-    this.slide++;
-    this.slide++;
+    this.slide+=Math.ceil(Math.random(6));
+
     if(this.slide>=this.sidelength){
       this.slide=0;
       this.color=255-this.color;
