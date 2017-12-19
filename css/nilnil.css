@@ -14,11 +14,11 @@ a {
 
 @media (min-width: 975px) {
   .nilnil {
-    position:absolute;
-    top:200px;
-    left: -300px;
+    position:fixed;
+    top:138px;
+    left: -223px;
     transform: rotate(90deg);
-    font-size: 400px;
+    font-size: 300px;
     z-index: 0;
   }
 
@@ -35,7 +35,7 @@ a {
 
 @media (max-width: 975px) {
   .nilnil {
-    position:absolute;
+    position:fixed;
     top:100px;
     left: -150px;
     transform: rotate(90deg);
