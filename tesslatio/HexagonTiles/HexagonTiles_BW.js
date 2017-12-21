@@ -1,5 +1,6 @@
 function setup(){
-  createCanvas(1200,640)
+  createCanvas(windowWidth,windowHeight);
+  var HL=30;
   function Hexagon(x,y,sidelength){
 
       beginShape();
@@ -13,18 +14,20 @@ function setup(){
       endShape(CLOSE);
     }
 
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
+  for(var j=0;j<windowWidth/HL;j++){
+    for(var i=0;i<windowHeight/HL;i++){
       var r = floor(random(2))*255;
+      stroke(r);
       fill(r,r,r);
-      Hexagon(40+j*120,35+i*69,40);
+      Hexagon(HL*(j*3+1),((i+1/2)*sqrt(3))*HL,HL);
     }
   }
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
+  for(var j=0;j<windowWidth/HL;j++){
+    for(var i=0;i<windowHeight/HL;i++){
       var r = floor(random(2))*255;
+      stroke(r);
       fill(r,r,r);
-      Hexagon(100+j*120,70+i*69,40);
+      Hexagon(HL*(j*3-1/2),i*sqrt(3)*HL,HL);
     }
   }
 }

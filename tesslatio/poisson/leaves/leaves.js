@@ -16,7 +16,7 @@ var colors = [c1,c2,c3]
 function draw(){
   for(var i=0;i<floor(random(8))*2;i++){
     shuffle(colors);
-    fill(200,floor(random(3))*100,0,10);
+    fill(200,floor(random(3))*100,0,25);
     noStroke();
     rect(floor(random(120))*10+floor(random(6)),floor(random(64))*10+floor(random(6)),10,10);
   }
