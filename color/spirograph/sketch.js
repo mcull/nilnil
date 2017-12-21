@@ -59,10 +59,10 @@ function setup() {
 
   pixelDensity(3.0);
   canvas = createCanvas(max(2*totalRadii,windowWidth), max(2*totalRadii,windowHeight));
-  noFill();
-  stroke(0,50);
+  //noFill();
+  stroke(0,100);
   strokeWeight(1);
-  //fill(255,150);
+  fill(255,150);
 }
 
 function draw() {
