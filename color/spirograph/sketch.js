@@ -67,7 +67,7 @@ function setup() {
 
 function draw() {
   if (doSave) {
-    save(canvas, 'spirograph-' + randohash + '.png');
+    save(canvas, 'nilnil_spirograph-' + randohash + '.png');
     doSave = false;
   }
   if (!play) {
