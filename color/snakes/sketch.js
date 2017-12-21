@@ -3,7 +3,7 @@ var img;
 var ambientBouncer;
 var snakes = new Array();
 var snakeCount = 0;
-var numOfSnakes = 75;//floor(random(7,10));
+var numOfSnakes = 225;//floor(random(7,10));
 
 function addSnake() {
   snakes.push(new Snake(random(windowWidth*.2,windowWidth*.8),
