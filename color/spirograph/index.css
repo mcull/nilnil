@@ -1,0 +1,30 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.controlPanel {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+}
+.control {
+  float: left;
+  margin: 5px;
+  color: red;
+}
+
+#play {
+  display: none;
+}
+
+.tippy-tooltip.nilnil-theme {
+  /* Your styling here. Example: */
+  background-color: red;
+  border: 2px solid red;
+  font-size: 11px;
+}
+
+.tippy-popper[x-placement^=right] .tippy-arrow {
+  border-right: 7px solid red;
+}
