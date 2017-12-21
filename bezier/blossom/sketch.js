@@ -52,7 +52,6 @@ function draw() {
 }
 
 function Bouncer(start, min, max, increment) {
-
   this.bounds = [min,max];
   this.increment = increment;
   this.current = start;
