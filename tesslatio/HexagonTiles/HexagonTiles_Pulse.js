@@ -1,22 +1,7 @@
 function setup(){
   createCanvas(1200,640)
   background(255,0,0)
-  /*
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
-      var r = random(1)*255;
-      fill(r,r,r);
-      Hexagon(40+j*120,35+i*69,40);
-    }
-  }
-  for(var j=0;j<18;j++){
-    for(var i=0;i<10;i++){
-      var r = random(1)*255;
-      fill(r,r,r);
-      Hexagon(100+j*120,70+i*69,40);
-    }
-  }
-  */
+
   hexs1=[];
   hexs2=[];
   for(var i=0;i<18;i++){
