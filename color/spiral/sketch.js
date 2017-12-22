@@ -3,7 +3,6 @@ var canvas;
 var play = true;
 var doSave = false;
 var randohash =  Math.round((new Date()).getTime() / 1000);
-var colorBouncer;
 var outerColors;
 var innerColors;
 var spirals = [];
@@ -73,7 +72,6 @@ function setup() {
   //addSpiral();
 
   addSpiralPair();
-  colorBouncer = new Bouncer(254, 200, 255, 1);
 
   stroke(0,100);
   strokeWeight(1);
@@ -91,16 +89,6 @@ function draw() {
     return;
   }
 
-  // spirals.forEach(function(spiral) {
-  //   if (!spiral.done) {
-  //     ellipse(spiral.x(), spiral.y(), randomGaussian(max(5,spiral.radius/5),14));
-  //     spiral.advance();
-  //   } else {
-  //     addSpiral();
-  //     spirals.pop();
-  //   }
-  // });
-
   spiralPairs.forEach(function(spiralPair) {
     if (!spiralPair[0].done || !spiralPair[1].done) {
       strokeWeight(1);
@@ -115,10 +103,6 @@ function draw() {
       }
       var cross = floor(log(spiralPair[0].radius*50)*100);
       if (cross % 13 == 0) {
-        // quad(spiralPair[0].x()-5, spiralPair[0].y()-5,
-        //      spiralPair[0].x()+5, spiralPair[0].y()+5,
-        //      spiralPair[1].x()-5, spiralPair[1].y()-5,
-        //      spiralPair[1].x()+5, spiralPair[1].y()+5);
         var slope = (spiralPair[1].y() - spiralPair[0].y())/(spiralPair[1].x() - spiralPair[0].x());
         for (var i = spiralPair[0].x(); i < spiralPair[1].x(); i+= 8) {
           if (random(100) < 30) {
@@ -171,21 +155,4 @@ function Spiral(radius, direction, radian, offsetX, offsetY) {
       this.radian += 2*(max(.5,this.radius/height)) *  Math.PI/180 * this.direction;
     }
   }
-}
-
-function Bouncer(start, min, max, increment) {
-  this.bounds = [min,max];
-  this.increment = increment;
-  this.current = start;
-  this.next = function() {
-    this.current = this.current + this.increment;
-    if (this.bounds.includes(xRound(this.current, 1))) {
-      this.increment *= -1;
-    }
-    return this.current;
-  }
-}
-
-function xRound(value, decimals) {
-  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
