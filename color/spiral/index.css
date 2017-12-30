@@ -1,28 +1,21 @@
-html, body {
-  height: 100%;
-}
-
 body {
-  margin: 0;
-  display: flex;
   font-family: 'Montserrat', sans-serif;
 
-  /* This centers our sketch horizontally. */
-  justify-content: center;
-
-  /* This centers our sketch vertically. */
-  align-items: center;
 }
 
 .controlPanel {
   position: fixed;
-  top: 5px;
-  left: 5px;
+  top: 0px;
+  left: 0px;
+  //padding-left:5px;
+  //padding-top: 5px;
+  background-color: white;
 }
 .control {
   float: left;
   margin: 5px;
   color: red;
+  cursor: pointer;
 }
 
 #play {

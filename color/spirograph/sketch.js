@@ -1,45 +1,85 @@
 var circles;
+var totalRadii = 0;
+var canvas;
+
+var play = true;
+var doSave = false;
+var randohash =  Math.round((new Date()).getTime() / 1000);
+
+$( document ).ready(function() {
+  var shareUrl = window.location.href;
+  if (location.hash.length == 0) {
+    shareUrl = window.location.href + '#' + randohash;
+  }
+  $("#share").attr("data-clipboard-text", shareUrl);
+  tippy("#share", {
+    trigger: 'click',
+    placement: 'right',
+    animation: 'scale',
+    duration: 100,
+    arrow: true,
+    theme: 'nilnil'
+  })
+  var clipboard = new Clipboard('#share');
+
+  $("#pause").click(function(){
+    play = false;
+    $(this).css("display", "none");
+    $("#play").css("display", "block");
+  });
+  $("#play").click(function(){
+    play = true;
+    $(this).css("display", "none");
+    $("#pause").css("display", "block");
+  });
+  $("#save").click(function(){
+    doSave = true;
+  });
+});
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  if (location.hash.length > 0) {
+    randohash = location.hash.substring(1);
+  }
+
+  randomSeed(randohash);
+
   circles = new Array();
 
-  noFill();
-  //noLoop();
-  //frameRate(3);
-  //fill(255,200)
-  stroke(0,90);
-  strokeWeight(1);
-  var hash =location.hash;
-  if (hash.length > 0) {
-    hash = hash.substring(1);
-    var parent = null;
-    hash.split("|").forEach(function(circle){
-      var params = circle.split(",");
-      parent = new Circle(parseInt(params[0]), parent, parseInt(params[1]));
-      circles.push(parent);
-      console.log(circles);
-    });
-  } else {
-    var parentCircle = new Circle(random(5,15));
+  var parentCircle = new Circle(random(5,15));
+  circles.push(parentCircle);
+  var numOfCircles = random(3,6);
+
+  for (var i = 0; i < floor(numOfCircles); i++) {
+    r = random(5,100);
+    totalRadii += r;
+    parentCircle = new Circle(r, parentCircle, random([1,-1]));
     circles.push(parentCircle);
-//    circles = [parentCircle];
-    var numOfCircles = random(3,6);
-    hash = "#" + parentCircle.radius + ",1";
-    for (var i = 0; i < floor(numOfCircles); i++) {
-      parentCircle = new Circle(random(5,windowHeight/numOfCircles), parentCircle, random([1,-1]));
-      circles.push(parentCircle);
-      hash += "|" + parentCircle.radius + "," + parentCircle.direction;
-    }
-    location.hash = hash;
   }
+
+  pixelDensity(3.0);
+  canvas = createCanvas(max(2*totalRadii,windowWidth), max(2*totalRadii,windowHeight));
+  //noFill();
+  stroke(0,100);
+  strokeWeight(1);
+  fill(255,150);
 }
 
 function draw() {
-  console.log(circles);
+  if (doSave) {
+    save(canvas, 'nilnil_spirograph-' + randohash + '.png');
+    doSave = false;
+  }
+  if (!play) {
+    return;
+  }
+  var x;
+  var y;
   circles.forEach(function(circle, i) {
     if (i > 0) {
-      ellipse(circle.x(), circle.y(), 2);
+       x = circle.x();
+       y = circle.y();
+      ellipse(x, y, 2);
     }
     circle.advance();
   });
@@ -58,10 +98,10 @@ function Circle(radius, parent = null, direction = 1) {
   }
 
   this.centerX = function() {
-    return (this.parent == null) ? windowWidth/2 : this.parent.x();
+    return (this.parent == null) ? width/2 : this.parent.x();
   }
   this.centerY = function() {
-    return (this.parent == null) ? windowHeight/2 : this.parent.y();
+    return (this.parent == null) ? height/2 : this.parent.y();
   }
    this.advance = function() {
      this.radian += Math.PI/this.radius * this.direction;

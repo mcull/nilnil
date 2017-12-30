@@ -1,3 +1,42 @@
+var play = true;
+var doSave = false;
+var randohash =  Math.round((new Date()).getTime() / 1000);
+var canvas;
+
+$( document ).ready(function() {
+  var shareUrl = window.location.href;
+  if (location.hash.length == 0) {
+    shareUrl = window.location.href + '#' + randohash;
+  }
+  $("#share").attr("data-clipboard-text", shareUrl);
+  tippy("#share", {
+    trigger: 'click',
+    placement: 'right',
+    animation: 'scale',
+    duration: 100,
+    arrow: true,
+    theme: 'nilnil'
+  })
+  var clipboard = new Clipboard('#share');
+  clipboard.on('success', function(e) {
+    window.location = shareUrl;
+  });
+
+  $("#pause").click(function(){
+    play = false;
+    $(this).css("display", "none");
+    $("#play").css("display", "block");
+  });
+  $("#play").click(function(){
+    play = true;
+    $(this).css("display", "none");
+    $("#pause").css("display", "block");
+  });
+  $("#save").click(function(){
+    doSave = true;
+  });
+});
+
 var points = new Array();
 var greyBouncer = new Bouncer(0,0,255,1);
 var strokeBouncer = new Bouncer(1,1,17,0.1);
@@ -17,7 +56,13 @@ var MAX_CURVES = 300;
 var ODDS_OF_WHITE = .05;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight*HEIGHT);
+  if (location.hash.length > 0) {
+    randohash = location.hash.substring(1);
+  }
+
+  randomSeed(randohash);
+
+  canvas = createCanvas(windowWidth, windowHeight*HEIGHT*1.2);
   noFill();
   strokeJoin(ROUND);
   background(255);
@@ -27,6 +72,13 @@ function setup() {
 }
 
 function draw() {
+  if (doSave) {
+    save(canvas, 'nilnil_ribbons-' + randohash + '.png');
+    doSave = false;
+  }
+  if (!play) {
+    return;
+  }
   if (curves.length <= MAX_CURVES) {
     var startX = random(windowWidth/4);
     var startY = random(windowHeight*HEIGHT);
@@ -46,8 +98,6 @@ function draw() {
     var direction = 1;
 
     if (random(100) < 100*ODDS_OF_WHITE) {
-      //splineColor = color(0,255,0);
-      //featherColor = color(0,255,0);
       splineColor = color(255);
       featherColor = color(255);
       startX = random(windowWidth - windowWidth/5);
