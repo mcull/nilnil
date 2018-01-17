@@ -188,98 +188,6 @@ function setup(){
       }
 
     }
-    // this.oneclean=function(c,c1,c2){
-    //
-    //     var check=0;
-    //     this.cleans1=[];
-    //     this.cleans2=[];
-    //     this.C=c
-    //     for(var i=0;i<windowWidth/this.Hl-1;i++){
-    //       for(var j=0;j<windowHeight/this.Hl-1;j++){
-    //         if(i>0){
-    //           if(j>0){
-    //             check1=0;
-    //             check2=0;
-    //             thisColor1=this.hexs1[i][j].getColor();
-    //             thisColor2=this.hexs2[i][j].getColor();
-    //             if(thisColor1==c1){
-    //               if(this.hexs1[i-1][j].color==thisColor1){
-    //                check1++;
-    //               }
-    //               if(this.hexs1[i+1][j].color==thisColor1){
-    //                check1++;
-    //               }
-    //               if(this.hexs2[i][j].color==thisColor1){
-    //                 check1++;
-    //               }
-    //               if(this.hexs2[i][j+1].color==thisColor1){
-    //                 check1++;
-    //               }
-    //               if(this.hexs2[i+1][j].color==thisColor1){
-    //                 check1++;
-    //               }
-    //               if(this.hexs2[i+1][j+1].color==thisColor1){
-    //                 check1++;
-    //               }
-    //               if(check1<=this.C){
-    //                 this.cleans1.push(this.hexs1[i][j]);
-    //               }
-    //             }
-    //             if(thisColor2==c1){
-    //               if(this.hexs2[i-1][j].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(this.hexs2[i+1][j].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(this.hexs1[i-1][j-1].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(this.hexs1[i-1][j].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(this.hexs1[i][j-1].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(this.hexs1[i][j].color==thisColor2){
-    //                 check2++;
-    //               }
-    //               if(check2<=this.C){
-    //                 this.cleans2.push(this.hexs2[i][j]);
-    //               }
-    //             }
-    //
-    //           }
-    //         }
-    //
-    //       }
-    //     }
-    //
-    //     this.cleans1.forEach(function(tile){
-    //       if(tile.getColor()==c1){
-    //         tile.colorChange(c2);
-    //         check+=1;
-    //       }else if(tile.getColor()==c2){
-    //         tile.colorChange(c1);
-    //         check+=1;
-    //       }
-    //
-    //     });
-    //     this.cleans2.forEach(function(tile){
-    //       if(tile.getColor()==c1){
-    //         tile.colorChange(c2);
-    //         check+=1;
-    //       }else if(tile.getColor()==c2){
-    //         tile.colorChange(c1);
-    //         check+=1;
-    //       }
-    //     });
-    //     if(check==0){
-    //       this.should++;
-    //
-    //     }
-    //
-    //   }
     this.neatClean=function(c){
 
         var check=0;
@@ -371,8 +279,6 @@ function setup(){
 
 
     }
-
-
     this.forest=function(p){
       for(var i=1;i<windowWidth/this.Hl-1;i++){
         for(var j=1;j<windowHeight/this.Hl-1;j++){

@@ -18,6 +18,7 @@ function draw(){
     shuffle(colors);
     fill(200,floor(random(3))*100,0,25);
     noStroke();
+    rotate(random(TAU));
     rect(floor(random(120))*10+floor(random(6)),floor(random(64))*10+floor(random(6)),10,10);
   }
 }
