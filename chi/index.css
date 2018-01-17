@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+
+.controlPanel {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+}
+.control {
+  float: left;
+  margin: 5px;
+  color: red;
+}
+
+#play {
+  display: none;
+}
+
+.tippy-tooltip.nilnil-theme {
+  /* Your styling here. Example: */
+  background-color: red;
+  border: 2px solid red;
+  font-size: 11px;
+}
+
+.tippy-popper[x-placement^=right] .tippy-arrow {
+  border-right: 7px solid red;
+}
